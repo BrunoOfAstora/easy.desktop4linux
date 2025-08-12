@@ -45,7 +45,7 @@ def main() -> None:
 
     make_symlink(ui.bin_abs, tgt.tgt_bin_path);
     print(f"Symlink created: {tgt.tgt_bin_path} -> {os.readlink(tgt.tgt_bin_path)}");
-    print(f"ICON PATH {str(tgt.tgt_dsk_path)}");
+    print("Shortcut created\n");
 
     with open(tgt.tgt_dsk_path, "w") as f:
         f.write("[Desktop Entry]\n"

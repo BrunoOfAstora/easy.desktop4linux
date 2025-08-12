@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+
+set -e
+
+if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then
+  echo "Invalid argument."
+  echo "usage: 'desktop <name> <executable file> <icon>'"
+  exit 1
+fi
+
+sudo python ~/.local/bin/dsktp/run.py "$1" "$2" "$3"
