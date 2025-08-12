@@ -53,7 +53,7 @@ def main() -> None:
             f"Exec={tgt.tgt_bin_path}\n"
             f"Terminal=false\n"
             f"Type=Application\n"
-            f"Icon={tgt.tgt_dsk_path}\n"
+            f"Icon={ui.dsk_abs}\n"
             f"StartupWMClass={ui.f_name}\n"
             f"Comment={ui.f_name}\n"
             f"Categories=Utility;\n");
