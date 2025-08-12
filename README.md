@@ -14,7 +14,11 @@ cd easy.desktop4linux
 
 ### Usage
 ````bash
-desktop <name> <executable> <icon>
+desktop  <executable> <icon> <name>
+
+or 
+
+desktop rm <name> (if you want to remove)
 ````
 > [!IMPORTANT]
 > 

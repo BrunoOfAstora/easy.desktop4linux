@@ -1,12 +1,8 @@
-import argparse
 import os, pwd
 import stat
+import sys
+from os import unlink
 from pathlib import Path
-
-parser = argparse.ArgumentParser();
-parser.add_argument("f_name");
-parser.add_argument("bin_p");
-parser.add_argument("dsk_p");
 
 def home_dir()->Path:
     sudo = os.environ.get("SUDO_USER");
@@ -21,15 +17,21 @@ class GetPath:
         self.dsk_path: Path = home / ".local" / "share" / "applications";
 
 class Input:
-    def __init__(self, args:argparse.Namespace)->None:
-        self.bin_abs: Path = Path(args.bin_p).resolve();
-        self.dsk_abs: Path = Path(args.dsk_p).resolve();
-        self.f_name: Path = Path(args.f_name);
+    def __init__(self)->None:
+        self.bin_abs: Path = Path(sys.argv[1]).resolve();
+        self.dsk_abs: Path = Path(sys.argv[2]).resolve();
+        self.f_name: Path = Path(sys.argv[3]);
 
 class TargetPath:
-    def __init__(self, gp:GetPath, ui:Input)->None:
-        self.tgt_bin_path:Path = gp.bin_path / f"d4l_{ui.bin_abs.name}";
-        self.tgt_dsk_path:Path = gp.dsk_path / f"d4l_{ui.dsk_abs.name}.desktop";
+    def __init__(self, gp:GetPath)->None:
+
+        if sys.argv[1] == "rm":
+            self.tgt_bin_path: Path = gp.bin_path / f"d4l_{sys.argv[2]}";
+            self.tgt_dsk_path:Path = gp.dsk_path / f"d4l_{sys.argv[2]}_icon.desktop";
+            return
+
+        self.tgt_bin_path:Path = gp.bin_path / f"d4l_{sys.argv[3]}";
+        self.tgt_dsk_path:Path = gp.dsk_path / f"d4l_{sys.argv[3]}_icon.desktop";
 
 def make_symlink(src:Path, dst:Path)->None:
     dst.parent.mkdir(parents=True, exist_ok=True);
@@ -37,11 +39,26 @@ def make_symlink(src:Path, dst:Path)->None:
         dst.unlink();
     os.symlink(src, dst);
 
+def remove_files() -> None:
+    if sys.argv[1] == "rm":
+        gp = GetPath();
+        tgt = TargetPath(gp);
+
+        unlink(tgt.tgt_bin_path);
+        unlink(tgt.tgt_dsk_path);
+
+
+
 def main() -> None:
-    args = parser.parse_args();
+
+    if sys.argv[1] == "rm":
+        remove_files();
+        print(f"Shortcut for {sys.argv[2]} Removed");
+        return
+
     gp = GetPath();
-    ui = Input(args);
-    tgt = TargetPath(gp, ui);
+    ui = Input();
+    tgt = TargetPath(gp);
 
     make_symlink(ui.bin_abs, tgt.tgt_bin_path);
     print(f"Symlink created: {tgt.tgt_bin_path} -> {os.readlink(tgt.tgt_bin_path)}");
@@ -61,5 +78,6 @@ def main() -> None:
 
     st = os.stat(tgt.tgt_bin_path);
     os.chmod(tgt.tgt_bin_path, st.st_mode | stat.S_IEXEC | stat.S_IXGRP | stat.S_IXUSR);
+
 if __name__ == "__main__":
     main();

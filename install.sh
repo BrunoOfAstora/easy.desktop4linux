@@ -19,6 +19,7 @@ if grep "desktop" "$HOME/.local/bin/desktop/desktop" > /dev/null 2>&1; then
 fi
 
 cp src/desktop ~/.local/bin/dsktp
+
 cp src/run.py ~/.local/bin/dsktp
 
 chmod +x ~/.local/bin/dsktp/desktop
