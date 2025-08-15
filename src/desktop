@@ -1,15 +1,4 @@
 #!/usr/bin/bash
 
-set -e
-
-if [ "$1" = "rm" ] && [ -n "$2" ]; then
-  sudo python ~/.local/bin/dsktp/run.py "$1" "$2"
-  exit 1
-fi
-
-if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then
-  printf "usage:\n'desktop <executable file> <icon> <name>' to create a shortcut \n or \n'desktop rm <name>' to remove the shortcut \n"
-  exit 1
-fi
-
-sudo python ~/.local/bin/dsktp/run.py "$1" "$2" "$3"
+set -eu
+sudo python ~/.local/bin/dsktp/run.py "$@"

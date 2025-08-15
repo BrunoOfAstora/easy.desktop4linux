@@ -47,14 +47,20 @@ def remove_files() -> None:
         unlink(tgt.tgt_bin_path);
         unlink(tgt.tgt_dsk_path);
 
-
-
 def main() -> None:
 
-    if sys.argv[1] == "rm":
+    if len(sys.argv) <= 2 or len(sys.argv) > 4:
+        print("\nusage:\n'desktop <executable file> <icon> <name>' to create a shortcut \n or \n'desktop rm <name>' to remove the shortcut \n");
+        return;
+
+    if sys.argv[1] == "rm" and len(sys.argv) == 3 :
         remove_files();
         print(f"Shortcut for {sys.argv[2]} Removed");
-        return
+        return;
+
+    elif sys.argv[1] == "rm" and len(sys.argv) != 3:
+        print("\nusage:\n'desktop <executable file> <icon> <name>' to create a shortcut \n or \n'desktop rm <name>' to remove the shortcut \n");
+        return;
 
     gp = GetPath();
     ui = Input();
