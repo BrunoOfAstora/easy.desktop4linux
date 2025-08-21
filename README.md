@@ -1,6 +1,6 @@
 # Small script for easy ".desktop" files.
 
-This script was made to facilitate the steps of creating .desktop files for Linux
+This script was made to facilitate the steps of creating .desktop files for Linux (Gnome, KDE, etc..)
 
 ### Instalation
 
